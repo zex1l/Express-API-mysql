@@ -2,10 +2,11 @@ const responce = require('../responce')
 const db = require('../settings/database')
 
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 exports.getAllUsers = (req, res) => {
 
-    db.query('SELECT `id`, `name`, `secondName`, `email` FROM users', (err, rows, firlds) => {
+    db.query('SELECT `id`, `name`,  `email` FROM users', (err, rows, fields) => {
         if(err){
             responce.status(400, err, res)
         }
@@ -40,12 +41,41 @@ exports.signup = (req, res) => {
                     responce.status(400, err, res)
                 }
                 else {
-                    responce.status(200, {message: 'Users was created', result}, res)
+                    responce.status(200, {message: 'User was created', result}, res)
                 }
             })
         }
     })
-
-
     
+}
+
+exports.signin = (req, res) => {
+    // Select data from db
+    db.query('SELECT `email`, `id`, `password`, `name` FROM `users` WHERE `email` = "'+ req.body.email +'"', (err, rows, fields) => {
+        
+        if(err) {
+            responce.status(404, err, res)
+        }
+        else if(rows.length <= 0) {
+            responce.status(401, {message: 'Email not found'}, res)
+        }
+        else {
+            const row = JSON.parse(JSON.stringify(rows))
+            row.map(rw => {
+                const password = bcrypt.compareSync(req.body.password, rw.password)
+                if(password){
+                    const token = jwt.sign({
+                        userId: rw.id,
+                        email: rw.email,
+                        name: rw.name
+                    },'jwt-key' ,{expiresIn: 120 * 120}) // expriseIn its how many time token is live
+                    responce.status(200, {token: `Bearer ${token}`}, res)
+                }
+                else {
+                    responce.status(401, {message: 'Uncorrect email or password'}, res)
+                }
+                return true
+            })
+        }
+    })
 }
