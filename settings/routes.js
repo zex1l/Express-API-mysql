@@ -15,5 +15,5 @@ module.exports = (app) => {
 
     app
         .route('/users/auth/signin')
-        .get(usersController.signin)
+        .post(usersController.signin)
 }

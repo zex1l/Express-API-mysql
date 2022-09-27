@@ -2,8 +2,8 @@ import {Routes, Route} from 'react-router-dom'
 import Header from './components/header/Header';
 
 import Home from './components/Home/Home';
-import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
+import SignIn from './Pages/SignIn/SignIn';
+import SignUp from './Pages/SignUp/SignUp';
 
 function App() {
   return (

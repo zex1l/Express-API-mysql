@@ -1,21 +1,25 @@
-.signIn__inner {
+.form__inner {
     margin: 50px auto;
     width: 40%;
-    height: 12em;
+    height: fit-content;
     padding: 20px;
     background-color: aqua;
     border-radius: 40px;
     text-align: center;
 }
 
-.signIn__form {
+.form__logo {
+    margin-bottom: 20px;
+}
+
+.form {
     flex: 12;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.signIn__input {
+.form__input {
     padding: 5px 10px;
     margin-bottom: 5px;
     border: grey 1px solid;
@@ -24,11 +28,11 @@
     border-radius: 30px;
 }
 
-.signIn__input:focus {
+.form__input:focus {
     outline: none;
 }
 
-.signIn__btn {
+.form__btn {
     margin-top: 10px;
     padding: 10px;
     color: #fff;
@@ -39,11 +43,11 @@
     transition: all 0.3s ease-in-out;
 }
 
-.signIn__btn:hover {
+.form__btn:hover {
     background-color: rgb(21, 4, 84);
 }
 
-.link__signUp .form__link {
+.link__form .form__link {
     color: rgb(1, 17, 108);
 
 }

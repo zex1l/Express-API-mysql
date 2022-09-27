@@ -18,7 +18,7 @@ exports.getAllUsers = (req, res) => {
 
 exports.signup = (req, res) => {
 
-    db.query('SELECT `id`, `name`,  `email` FROM `users` WHERE `email` = "'+ req.body.email +'"', (err, rows, fields) => {
+    db.query('SELECT `id`, `name`,  `email` FROM `users` WHERE `email` = "'+ req.body.data.email +'"', (err, rows, fields) => {
         if(err) {
             responce.status(404, err, res)
         }
@@ -31,7 +31,7 @@ exports.signup = (req, res) => {
         }
         else {
             const salt = bcrypt.genSaltSync(10)
-            const {email, name, password, secondName} = req.body
+            const {email, name, password, secondName} = req.body.data
             const passwordHash = bcrypt.hashSync(password, salt)
             
             const sql = "INSERT INTO `users`(`name`, `secondName`, `email`, `password`) VALUES('" + name +"','" + secondName +"','" + email +"', '"+ passwordHash +"')"
@@ -51,8 +51,9 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     // Select data from db
-    db.query('SELECT `email`, `id`, `password`, `name` FROM `users` WHERE `email` = "'+ req.body.email +'"', (err, rows, fields) => {
-        
+    db.query('SELECT `email`, `id`, `password`, `name` FROM `users` WHERE `email` = "'+ req.body.data.email +'"', (err, rows, fields) => {
+        console.log(req.body.data)
+        console.log(rows)
         if(err) {
             responce.status(404, err, res)
         }
@@ -62,7 +63,7 @@ exports.signin = (req, res) => {
         else {
             const row = JSON.parse(JSON.stringify(rows))
             row.map(rw => {
-                const password = bcrypt.compareSync(req.body.password, rw.password)
+                const password = bcrypt.compareSync(req.body.data.password, rw.password)
                 if(password){
                     const token = jwt.sign({
                         userId: rw.id,
