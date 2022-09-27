@@ -1,0 +1,49 @@
+.signIn__inner {
+    margin: 50px auto;
+    width: 40%;
+    height: 12em;
+    padding: 20px;
+    background-color: aqua;
+    border-radius: 40px;
+    text-align: center;
+}
+
+.signIn__form {
+    flex: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signIn__input {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border: grey 1px solid;
+    width: 80%;
+    height: 2em;
+    border-radius: 30px;
+}
+
+.signIn__input:focus {
+    outline: none;
+}
+
+.signIn__btn {
+    margin-top: 10px;
+    padding: 10px;
+    color: #fff;
+    width: 90px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgb(82, 40, 220);
+    transition: all 0.3s ease-in-out;
+}
+
+.signIn__btn:hover {
+    background-color: rgb(21, 4, 84);
+}
+
+.link__signUp .form__link {
+    color: rgb(1, 17, 108);
+
+}
