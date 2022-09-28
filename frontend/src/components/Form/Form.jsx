@@ -1,13 +1,21 @@
 import {useState} from 'react'
 import axios from 'axios'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { addUser } from '../../store/slices/userSlice'
+
 import './Form.css'
+import { useNavigate } from 'react-router-dom'
 
 const Form = ({title, setToken}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
+
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate()
 
     const onSubmitData = (e) => {
         e.preventDefault()
@@ -23,16 +31,18 @@ const Form = ({title, setToken}) => {
                     password
                 }
             })
-                .then(res => console.log(res)) // Need to add redux and set token from res.data
+                .then(res => dispatch(addUser(res.data.value.token))) // Need to add redux and set token from res.data  dispatch(addUser(res.data))
 
         }
         else {
             // Add sign up with backend
         }
 
+        
         setEmail('')
         setPassword('')
         setName('')
+        navigate('/')
     }
 
     return(

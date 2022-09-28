@@ -1,11 +1,12 @@
 import {Link} from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
+import { useSelector } from 'react-redux';
 
 import './header.css'
 
 const Header = () => {
 
-    const auth = false
+    const isAuth = useSelector(state => state.reducer.user.isAuth)
 
     return (
         <header>
@@ -23,7 +24,7 @@ const Header = () => {
                 <nav className="header__nav">
                         <Link to='' className="nav__item">Nav</Link>
                         <Link to='/news' className="nav__item">News</Link>
-                        { auth ? 
+                        { isAuth ? 
                             <Link to='/profile' className="nav__item">Profile</Link> :
                             <Link to='/signin' className="nav__item">Sign In</Link>
                         }
