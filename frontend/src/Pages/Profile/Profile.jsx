@@ -3,6 +3,7 @@ const Profile = () => {
     return(
         <div>
             Profile
+            and lol
         </div>
     )
 }
