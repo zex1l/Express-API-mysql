@@ -1,0 +1,39 @@
+.profile {
+    padding: 20px;
+}
+
+.profile__inner {
+    margin-top: 40px;
+}
+
+.profile__main {
+    display: flex;
+    align-items: center;
+}
+
+.profile__img {
+    widows: 100px;
+    height: 100px;
+    margin-right: 40px;
+}
+
+.profile__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info__item {
+    margin-bottom: 10px;
+}
+
+.profile__other {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.other__item {
+    margin-top: 10px;
+    color: #000;
+    text-decoration: none;
+}

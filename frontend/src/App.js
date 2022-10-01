@@ -7,6 +7,7 @@ import Home from './components/Home/Home';
 import SignIn from './Pages/SignIn/SignIn';
 import SignUp from './Pages/SignUp/SignUp';
 import Profile from './Pages/Profile/Profile';
+import Friends from './Pages/Friends/Friends';
 
 function App() {
   const isAuth = useSelector(state => state.reducer.user.isAuth)
@@ -19,6 +20,7 @@ function App() {
           <Route path='/signin' element={<SignIn/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/profile' element={isAuth ? <Profile/> : <Navigate to='/signin' replace/>}/>
+          <Route path='.proifle/:id/friends' element={<Friends/>}/>
       </Routes>
     </div>
   );
