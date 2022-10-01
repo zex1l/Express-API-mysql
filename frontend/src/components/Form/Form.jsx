@@ -31,8 +31,8 @@ const Form = ({title, setToken}) => {
                     password
                 }
             })
-                .then(res => dispatch(addUser(res.data.value.token))) // Need to add redux and set token from res.data  dispatch(addUser(res.data))
-
+                .then(res => dispatch(addUser(res.data.value.token))
+                ) 
         }
         else {
             // Add sign up with backend

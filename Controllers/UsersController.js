@@ -3,6 +3,7 @@ const db = require('../settings/database')
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { response } = require('express')
 
 exports.getAllUsers = (req, res) => {
 
@@ -15,6 +16,7 @@ exports.getAllUsers = (req, res) => {
         }
     })
 }
+
 
 exports.signup = (req, res) => {
 
@@ -51,7 +53,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     // Select data from db
-    db.query('SELECT `email`, `id`, `password`, `name` FROM `users` WHERE `email` = "'+ req.body.data.email +'"', (err, rows, fields) => {
+    db.query('SELECT `email`, `id`, `password`, `name`, `friendsId` FROM `users` WHERE `email` = "'+ req.body.data.email +'"', (err, rows, fields) => {
         console.log(req.body.data)
         console.log(rows)
         if(err) {
@@ -68,7 +70,8 @@ exports.signin = (req, res) => {
                     const token = jwt.sign({
                         userId: rw.id,
                         email: rw.email,
-                        name: rw.name
+                        name: rw.name,
+                        userFriends: rw.friendsId
                     },'jwt-key' ,{expiresIn: 120 * 120}) // expriseIn its how many time token is live
                     responce.status(200, {token: `Bearer ${token}`}, res)
                 }

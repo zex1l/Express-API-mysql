@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+
+import { parseJwt } from '../../instruments/parseJwt'
+import { removeUser } from '../../store/slices/userSlice'
+
 import './profile.css'
 
 const Profile = () => {
@@ -10,19 +14,17 @@ const Profile = () => {
         name: null
     })
 
+    const dispatch = useDispatch()
     const token = useSelector(state => state.reducer.user.token)
-
-    const parseJwt = (token) => {
-        try {
-          return JSON.parse(atob(token.split('.')[1]));
-        } catch (e) {
-          return null;
-        }
-      }
+    const userData = useSelector(state => state.reducer.user.user)
 
     useEffect(() => {
-        setUser(parseJwt(token))
+        setUser(userData)
     }, [])
+
+    const onLogout = () => {
+        dispatch(removeUser())
+    }
     
     return(
         <div className='profile' key={user.userId}>
@@ -36,9 +38,13 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="profile__other">
-                        <Link to='/:id/friends' className="other__item">Friends</Link>
-                        <Link className="other__item">Posts</Link>
+                        <Link to={`/profile/${user.userId}/friends`} className="other__item">Friends</Link>
+                        <Link to={`/profile/${user.userId}/posts`} className="other__item">Posts</Link>
                     </div>
+                    <button 
+                        className="profile__btn"
+                        onClick={onLogout}
+                    >Logout</button>
                 </div>
             </div>
         </div>
