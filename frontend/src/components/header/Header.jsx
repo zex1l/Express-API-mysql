@@ -4,20 +4,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useSelector } from 'react-redux';
 
 import './header.css'
-import { parseJwt } from '../../instruments/parseJwt';
 
 const Header = () => {
     const initialState = {
         userId: null,
         name: null,
         email: null,
-        userFriends: null
+        userFriendsId: null
     }
 
     const [user, setUser] = useState(initialState)
 
     const isAuth = useSelector(state => state.reducer.user.isAuth)
-    const userData = useSelector(state => state.reducer.user.user)
+    const userData = useSelector(state => state.reducer.user.userData)
 
     useEffect(() => {
 
@@ -27,8 +26,10 @@ const Header = () => {
         else {
             setUser(initialState)
         }
-        console.log(user);
+        
     }, [isAuth])
+
+     
 
     return (
         <header>

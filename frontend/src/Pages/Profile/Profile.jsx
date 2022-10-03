@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 
-import { parseJwt } from '../../instruments/parseJwt'
-import { removeUser } from '../../store/slices/userSlice'
+import { removeUser, setUserFriends } from '../../store/slices/userSlice'
 
 import './profile.css'
 
@@ -14,17 +13,21 @@ const Profile = () => {
         name: null
     })
 
+
     const dispatch = useDispatch()
-    const token = useSelector(state => state.reducer.user.token)
-    const userData = useSelector(state => state.reducer.user.user)
+
+    const userData = useSelector(state => state.reducer.user.userData)
+
 
     useEffect(() => {
         setUser(userData)
     }, [])
 
+
     const onLogout = () => {
         dispatch(removeUser())
     }
+    
     
     return(
         <div className='profile' key={user.userId}>

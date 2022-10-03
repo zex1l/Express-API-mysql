@@ -12,14 +12,17 @@ import {
 import storage from 'redux-persist/lib/storage'
 
 import userReducer from './slices/userSlice'
+import allUsersReducer from './slices/allUsersSlice'
 
 const rootReducers = combineReducers({
-    user: userReducer
+    user: userReducer,
+    allUsers: allUsersReducer
 })
 
 const persistConfig = {
     key: 'root',
     storage,
+    blacklist: ['allUsers']
   }
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

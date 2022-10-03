@@ -1,5 +1,7 @@
 import {Routes, Route, Navigate} from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 import Header from './components/header/Header';
 
@@ -10,10 +12,31 @@ import Profile from './Pages/Profile/Profile';
 import Friends from './Pages/Friends/Friends';
 import EnemyProfile from './Pages/EnemyProfile/EnemyProfile';
 
+import {setAllUsers} from './store/slices/allUsersSlice'
 
 function App() {
 
   const isAuth = useSelector(state => state.reducer.user.isAuth)
+  const dispatch = useDispatch()
+  const token = useSelector(state => state.reducer.user.token)
+
+
+
+  useEffect(() => {
+    if(token) {
+      axios.get('http://localhost:5000/api/users',{
+      headers: {
+          'Authorization': token
+      }
+    })
+        .then(res => {
+            dispatch(setAllUsers(res.data.value))
+        })
+    }
+
+}, [isAuth])
+
+
 
   return (
     <div className="App">

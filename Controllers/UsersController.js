@@ -71,7 +71,7 @@ exports.signin = (req, res) => {
                         userId: rw.id,
                         email: rw.email,
                         name: rw.name,
-                        userFriends: rw.friendsId
+                        userFriendsId: rw.friendsId
                     },'jwt-key' ,{expiresIn: 120 * 120}) // expriseIn its how many time token is live
                     responce.status(200, {token: `Bearer ${token}`}, res)
                 }

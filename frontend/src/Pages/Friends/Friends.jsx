@@ -1,33 +1,32 @@
 import {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import {useSelector} from 'react-redux'
-import { parseUserFriends } from '../../instruments/parseUserFriends';
+
+import {useSelector, useDispatch} from 'react-redux'
+import { setUserFriends } from '../../store/slices/userSlice';
 
 import './friends.css'
+import FriendsList from '../../components/FriendsList/FriendsList';
+import { parseUserFriends } from '../../instruments/parseUserFriends';
 
 const Friends = () => {
     const [friends, setFriends] = useState([])
-    const [allUsers, setAllUsers] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    const token = useSelector(state => state.reducer.user.token)
-    const userFriendsId = useSelector(state => state.reducer.user.user.userFriends)
-
-    useEffect(() => {
-        axios.get('http://localhost:5000/api/users',{
-            headers: {
-                'Authorization': token
-            }
-        })
-            .then(res => setAllUsers(res.data.value))
-    }, [])
-
-    useEffect(() => {
-        const userFriendsData = parseUserFriends('2&5')
+    const userFriendsId = useSelector(state => state.reducer.user.userData.userFriendsId)
+    const allUsers = useSelector(state => state.reducer.allUsers.allUsers)
+    const dispatch = useDispatch()
+    
+    const setFriendsData = () => {
+        const userFriendsData = parseUserFriends(userFriendsId)
         const data = allUsers.filter(friend => userFriendsData.includes(friend.id))
-        setFriends(data)
+        dispatch(setUserFriends(data))
         
-    }, [allUsers])
+        setFriends(data)
+        setLoading(false)
+      }
+    
+      useEffect(() => {
+        setFriendsData()
+      }, [friends])
 
     return (
         <div className='friends'>
@@ -35,19 +34,9 @@ const Friends = () => {
                 <div className="friends__inner">
                     <ul className="friends__items">
                         
-                        {
-                            friends.map(friend => {
-                                return(
-                                    <Link to={`/enemy_profile/${friend.id}`} className="friends__item" key={friend.id}>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV-REr89iWROi6ScePs5agSIHpG9BPBDDZ_g&       usqp=CAU" alt="" className="friends__img" />
-                                        <div className="friends__info">
-                                            <span className="friends__name">{friend.name}</span>
-                                            
-                                        </div>
-                                    </Link>
-                                )
-                            })
-                        }
+                        
+                        {loading ? 'loading' : <FriendsList friends={friends}/>}
+                        
                     </ul>
                 </div>
             </div>
